@@ -2,6 +2,7 @@ FROM ubuntu:16.04
 MAINTAINER 	lin law bai  <lawrencelo0857@gmail.com>
 ENV DEBIAN_FRONTEND noninteractive
 RUN apt-get update -y
+Run apt-get install -y curl
 RUN apt-get install -y sudo apache2 
 RUN apt-get install -y php7.0 libapache2-mod-php7.0 libapache2-mod-php php7.0-mysql php7.0-gd
 #RUN echo 'mysql-server mysql-server/root_password password p@ssw0rd' | sudo debconf-set-selections
@@ -25,9 +26,9 @@ RUN find "$APACHE_CONFDIR" -type f -exec sed -ri ' \
 	s!^(\s*ErrorLog)\s+\S+!\1 /proc/self/fd/2!g; \
 ' '{}' ';'
 ENV WORDPRESS_VERSION 4.8.3
-#ENV WORDPRESS_SHA1 a99115b3b6d6d7a1eb6c5617d4e8e704ed50f450
+ENV WORDPRESS_SHA1 a99115b3b6d6d7a1eb6c5617d4e8e704ed50f450
 RUN set -ex; \
-	curl -o wordpress.tar.gz -fSL "https://wordpress.org/latest.tar.gz"; \
+	curl -o wordpress.tar.gz -fSL "https://wordpress.org/wordpress-${WORDPRESS_VERSION}.tar.gz"; \
 	echo "$WORDPRESS_SHA1 *wordpress.tar.gz" | sha1sum -c -; \
 # upstream tarballs include ./wordpress/ so this gives us /usr/src/wordpress
 	tar -xzf wordpress.tar.gz -C /usr/src/; \
