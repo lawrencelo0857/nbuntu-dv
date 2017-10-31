@@ -24,10 +24,15 @@ RUN find "$APACHE_CONFDIR" -type f -exec sed -ri ' \
 	s!^(\s*CustomLog)\s+\S+!\1 /proc/self/fd/1!g; \
 	s!^(\s*ErrorLog)\s+\S+!\1 /proc/self/fd/2!g; \
 ' '{}' ';'
-ENV WORDPRESS_VERSION 4.0.0
-ENV WORDPRESS_UPSTREAM_VERSION 4.0
-RUN curl -SL http://wordpress.org/wordpress-${WORDPRESS_UPSTREAM_VERSION}.tar.gz | tar -xzC /usr/src/
-
+ENV WORDPRESS_VERSION 4.8.2
+ENV WORDPRESS_SHA1 a99115b3b6d6d7a1eb6c5617d4e8e704ed50f450
+RUN set -ex; \
+	curl -o wordpress.tar.gz -fSL "https://wordpress.org/wordpress-${WORDPRESS_VERSION}.tar.gz"; \
+	echo "$WORDPRESS_SHA1 *wordpress.tar.gz" | sha1sum -c -; \
+# upstream tarballs include ./wordpress/ so this gives us /usr/src/wordpress
+	tar -xzf wordpress.tar.gz -C /usr/src/; \
+	rm wordpress.tar.gz; \
+	chown -R www-data:www-data /usr/src/wordpress
 COPY docker-apache.conf /etc/apache2/sites-available/wordpress
 RUN a2dissite 000-default && a2ensite wordpress
 
