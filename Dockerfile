@@ -9,7 +9,7 @@ RUN apt-get install -y php7.0 libapache2-mod-php7.0 libapache2-mod-php php7.0-my
 RUN apt-get -y install mysql-server mysql-client
 VOLUME /var/www/html
 WORKDIR /var/www/html
-NV APACHE_CONFDIR /etc/apache2
+ENV APACHE_CONFDIR /etc/apache2
 ENV APACHE_ENVVARS $APACHE_CONFDIR/envvars
 # and then a few more from $APACHE_CONFDIR/envvars itself
 ENV APACHE_RUN_USER www-data
