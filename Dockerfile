@@ -28,7 +28,7 @@ RUN find "$APACHE_CONFDIR" -type f -exec sed -ri ' \
 ENV WORDPRESS_VERSION 4.8.2
 ENV WORDPRESS_SHA1 a99115b3b6d6d7a1eb6c5617d4e8e704ed50f450
 RUN set -ex; \
-	curl -o wordpress.tar.gz -fSL "https://tw.wordpress.org/wordpress-4.8.2-zh_TW.tar.gz"; \
+	curl -o wordpress.tar.gz -fSL "https://wordpress.org/wordpress-4.8.2.tar.gz"; \
 	echo "$WORDPRESS_SHA1 *wordpress.tar.gz" | sha1sum -c -; \
 # upstream tarballs include ./wordpress/ so this gives us /usr/src/wordpress
 	tar -xzf wordpress.tar.gz -C /usr/src/; \
