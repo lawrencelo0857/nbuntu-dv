@@ -38,8 +38,8 @@ RUN set -ex; \
 	chown -R www-data:www-data /usr/src/wordpress
 # COPY apache_enable.sh /apache_enable.sh
 # ENTRYPOINT ["/apache_enable.sh"]
-# RUN cd /etc/apache2/sites-available/
-# RUN sudo a2ensite *
+RUN cd /etc/apache2/sites-available/
+RUN sudo a2ensite *
 RUN sudo service apache2 reload
 COPY docker-apache.conf /etc/apache2/sites-available/wordpress
 RUN find /etc/apache2/sites-available/ -type f -and -not -name "*default*" -exec a2ensite {} \;
