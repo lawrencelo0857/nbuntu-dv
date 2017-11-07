@@ -25,6 +25,7 @@ RUN find "$APACHE_CONFDIR" -type f -exec sed -ri ' \
 	s!^(\s*CustomLog)\s+\S+!\1 /proc/self/fd/1!g; \
 	s!^(\s*ErrorLog)\s+\S+!\1 /proc/self/fd/2!g; \
 ' '{}' ';'
+CMD sudo apache2 start
 ENV WORDPRESS_VERSION 4.8.2
 ENV WORDPRESS_SHA1 a99115b3b6d6d7a1eb6c5617d4e8e704ed50f450
 RUN set -ex; \
@@ -36,9 +37,7 @@ RUN set -ex; \
 	chown -R www-data:www-data /usr/src/wordpress
 COPY docker-apache.conf /etc/apache2/sites-available/wordpress
 RUN a2dissite 000-default && a2ensite wordpress
-CMD sudo apache2 start
 COPY docker-entrypoint.sh /entrypoint.sh
-
 ENTRYPOINT ["/entrypoint.sh"]
 EXPOSE 80
 CMD apachectl -D FOREGROUND
