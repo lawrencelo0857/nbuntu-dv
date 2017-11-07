@@ -8,6 +8,9 @@ RUN apt-get install -y php7.0 libapache2-mod-php7.0 libapache2-mod-php php7.0-my
 #RUN echo 'mysql-server mysql-server/root_password password p@ssw0rd' | sudo debconf-set-selections
 #RUN echo 'mysql-server mysql-server/root_password_again password p@ssw0rd' | sudo debconf-set-selections
 RUN apt-get -y install mysql-server mysql-client
+EXPOSE 80
+CMD apachectl -D FOREGROUND
+
 VOLUME /var/www/html
 WORKDIR /var/www/html
 ENV APACHE_CONFDIR /etc/apache2
@@ -40,6 +43,6 @@ CMD find /etc/apache2/sites-available/ -type f -and -not -name "*default*" -exec
 RUN a2dissite 000-default && a2ensite wordpress
 COPY docker-entrypoint.sh /entrypoint.sh
 ENTRYPOINT ["/entrypoint.sh"]
-EXPOSE 80
-CMD apachectl -D FOREGROUND
+
+
 
