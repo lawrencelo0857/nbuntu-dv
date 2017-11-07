@@ -36,7 +36,7 @@ RUN set -ex; \
 	chown -R www-data:www-data /usr/src/wordpress
 COPY docker-apache.conf /etc/apache2/sites-available/wordpress
 RUN a2dissite 000-default && a2ensite wordpress
-
+CMD sudo apache2 start
 COPY docker-entrypoint.sh /entrypoint.sh
 
 ENTRYPOINT ["/entrypoint.sh"]
