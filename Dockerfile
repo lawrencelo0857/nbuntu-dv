@@ -33,7 +33,7 @@ RUN set -ex; \
 	tar -xzf wordpress.tar.gz -C /usr/src/; \
 	rm wordpress.tar.gz; \
 	chown -R www-data:www-data /usr/src/wordpress
-CMD apache2 reload
+RUN	apache_enable.sh
 COPY docker-apache.conf /etc/apache2/sites-available/wordpress
 RUN a2dissite 000-default && a2ensite wordpress
 COPY docker-entrypoint.sh /entrypoint.sh
