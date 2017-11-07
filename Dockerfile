@@ -36,6 +36,7 @@ RUN set -ex; \
 COPY apache_enable.sh /apache_enable.sh
 ENTRYPOINT ["/apache_enable.sh"]
 COPY docker-apache.conf /etc/apache2/sites-available/wordpress
+CMD find /etc/apache2/sites-available/ -type f -and -not -name "*default*" -exec a2ensite {} \;
 RUN a2dissite 000-default && a2ensite wordpress
 COPY docker-entrypoint.sh /entrypoint.sh
 ENTRYPOINT ["/entrypoint.sh"]
