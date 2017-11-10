@@ -10,7 +10,6 @@ RUN apt-get install -y php7.0 libapache2-mod-php7.0 libapache2-mod-php php7.0-my
 RUN apt-get -y install mysql-server mysql-client
 EXPOSE 80
 CMD apachectl -D FOREGROUND
-
 VOLUME /var/www/html
 WORKDIR /var/www/html
 ENV APACHE_CONFDIR /etc/apache2
@@ -30,13 +29,13 @@ RUN find "$APACHE_CONFDIR" -type f -exec sed -ri ' \
 ' '{}' ';'
 ENV WORDPRESS_VERSION 4.8.2
 ENV WORDPRESS_SHA1 a99115b3b6d6d7a1eb6c5617d4e8e704ed50f450
-#RUN set -ex; \
-	#curl -o wordpress.tar.gz -fSL "https://wordpress.org/wordpress-4.8.2.tar.gz"; \
-	#echo "$WORDPRESS_SHA1 *wordpress.tar.gz" | sha1sum -c -; \
-	#tar -xzf wordpress.tar.gz -C /usr/src/; \
-	#rm wordpress.tar.gz; \
-	#chown -R www-data:www-data /usr/src/wordpress
-RUN curl -SL http://wordpress.org/wordpress-${WORDPRESS_UPSTREAM_VERSION}.tar.gz | tar -xzC /usr/src/
+RUN set -ex; \
+	curl -o wordpress.tar.gz -fSL "https://wordpress.org/wordpress-4.8.2.tar.gz"; \
+	echo "$WORDPRESS_SHA1 *wordpress.tar.gz" | sha1sum -c -; \
+	tar -xzf wordpress.tar.gz -C /usr/src/; \
+	rm wordpress.tar.gz; \
+	chown -R www-data:www-data /usr/src/wordpress
+#RUN curl -SL http://wordpress.org/wordpress-${WORDPRESS_UPSTREAM_VERSION}.tar.gz | tar -xzC /usr/src/
 # COPY apache_enable.sh /apache_enable.sh
 # ENTRYPOINT ["/apache_enable.sh"]
 #RUN cd /etc/apache2/sites-available/
