@@ -35,7 +35,6 @@ RUN set -ex; \
 	tar -xzf wordpress.tar.gz -C /usr/src/; \
 	rm wordpress.tar.gz; \
 	chown -R www-data:www-data /usr/src/wordpress
-#RUN curl -SL http://wordpress.org/wordpress-${WORDPRESS_UPSTREAM_VERSION}.tar.gz | tar -xzC /usr/src/
 # COPY apache_enable.sh /apache_enable.sh
 # ENTRYPOINT ["/apache_enable.sh"]
 #RUN cd /etc/apache2/sites-available/
@@ -43,6 +42,6 @@ RUN set -ex; \
 # RUN sudo service apache2 reload
 COPY docker-apache.conf /etc/apache2/sites-available/wordpress
 #RUN find /etc/apache2/sites-available/ -type f -and -not -name "*default*" -exec a2ensite {} \;
-RUN a2dissite 000-default && a2ensite wordpress
+#RUN a2dissite 000-default && a2ensite wordpress
 COPY docker-entrypoint.sh /entrypoint.sh
 ENTRYPOINT ["/entrypoint.sh"]
